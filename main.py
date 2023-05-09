@@ -10,10 +10,9 @@ from youtubepy import ExtractData
 # System
 import os
 from dotenv import load_dotenv
-load_dotenv()
-
+load_dotenv(dotenv_path="LeLeMusic\LeleMusic-Bot\secret.env")
 getGuild = discord.Object(id=941945255618572319)
-TOKEN = os.environ['DISCORD_TOKEN']
+TOKEN = os.getenv('DISCORD_TOKEN')
 
 
 class musicBot(discord.Client):
@@ -50,12 +49,12 @@ async def link_Translate(link: str):
     return result
 
 
-@tree.command(name="ping", description="Returns the ping to the user", guild=getGuild)
+@ tree.command(name="ping", description="Returns the ping to the user", guild=getGuild)
 async def self(interaction: discord.Interaction):
     await interaction.response.send_message(f"Pong! {round(bot.latency * 1000)}ms")
 
 
-@tree.command(name="play", description="Plays the song", guild=getGuild)
+@ tree.command(name="play", description="Plays the song", guild=getGuild)
 async def self(interaction: discord.Interaction, song: str):
     video = AsyncVideo(f"{song}")
     result = await video.search()
@@ -71,14 +70,14 @@ async def self(interaction: discord.Interaction, song: str):
     elif (voice_client and voiceBool):
         await interaction.response.send_message(f"Playing: {str(title)}")
     else:
-        voice_Toggle()
         await interaction.response.send_message(f"You are not in a voice channel, you must be in a voice channel to run this command!")
 
 
-@tree.command(name="leave", description="Disconnects Lele if you no longer need her.", guild=getGuild)
+@ tree.command(name="leave", description="Disconnects Lele if you no longer need her.", guild=getGuild)
 async def self(interaction: discord.Interaction):
     voice_client = interaction.guild.voice_client
     if voice_client:
+        voice_Toggle()
         await voice_client.disconnect()
         await interaction.response.send_message("Goodbye!")
     else:
